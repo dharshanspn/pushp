@@ -5,32 +5,32 @@ import time
 from datetime import datetime, timedelta
 import pytz
 import requests
-#Statusbot
-def telegram_bot_sendtext(bot_message):
-    bot_token = '7689900582:AAEqvL6FpyCoALd6iOvwGneRJvbrQlYrWvw'
-    bot_chatID = '6966110728'
+
+# Define functions to send messages via Telegram
+def telegram_bot_sendques(bot_message):
+    bot_token = '6283203048:AAGgOl-o6Itm3D1mw4_Omcf-g4t260vixN8'
+    bot_chatID = '1155462778'
     send_text = 'https://api.telegram.org/bot' + bot_token + '/sendMessage?chat_id=' + bot_chatID + \
                 '&parse_mode=MarkdownV2&text=' + str(bot_message).replace('.', '\\.')  # Escape the dot character
     response = requests.get(send_text)
     return response.json()
 
-#Notifier
-def telegram_bot_sendques (bot_message):
-    bot_token = '8131045025:AAE9_BMb5i2pk479mubtilbSIUilPA25jWM'
-    bot_chatID = '1296818887'
+def telegram_bot_sendtext(bot_message):
+    bot_token = '6151330973:AAHuzkvwRjN9MfaFZ0LiiNUNdI0bgZqppQk'
+    bot_chatID = '1155462778'
     send_text = 'https://api.telegram.org/bot' + bot_token + '/sendMessage?chat_id=' + bot_chatID + \
                 '&parse_mode=MarkdownV2&text=' + str(bot_message).replace('.', '\\.')  # Escape the dot character
     response = requests.get(send_text)
     return response.json()
 
 #variables
-sub = "Ithika ID"
-username = "itika.singh@triviumservice.com"
-password = "Cik-1604-24@021"
-login_text= f"{sub} Logged in"
+sub = "Anw"
+username = "anwarchegg05@gmail.com"
+password = "Author@05"
+login_text= f" Logged {sub}"
 limit_texts = f"Limit hit {sub}"
 flag = True
-alert = f"Question available on {sub}"
+
 while flag:
     try:
         # Set up the Chrome WebDriver
@@ -64,7 +64,6 @@ while flag:
 
 telegram_bot_sendtext(login_text)
 
-
 # Navigate to the authoring page
 driver.get("https://expert.chegg.com/qna/authoring/answer")
 time.sleep(3)
@@ -78,37 +77,19 @@ while True:
         limit_text = f"{limit}"
 
         if limit_text != "https://expert.chegg.com/qna/authoring/answer":
-            time.sleep(3)
-            driver.get("https://expert.chegg.com/qna/authoring/answer")
-            time.sleep(3)
-            limit = driver.current_url
-            limit_text = f"{limit}"
-            if limit_text != "https://expert.chegg.com/qna/authoring/answer":
-                time.sleep(3)
-                driver.get("https://expert.chegg.com/qna/authoring/answer")
-                time.sleep(3)
-                limit = driver.current_url
-                limit_text = f"{limit}"
-                if limit_text != "https://expert.chegg.com/qna/authoring/answer":
-                    time.sleep(3)
-                    driver.get("https://expert.chegg.com/qna/authoring/answer")
-                    time.sleep(3)
-                    limit = driver.current_url
-                    limit_text = f"{limit}"
-
-                    # Define the time zone (UTC+5:30)
-                    tz = pytz.timezone('Asia/Kolkata')
-                    # Get the current time in UTC+5:30
-                    now = datetime.now(tz)
-                    # Define the target time (12:30 PM)
-                    target_time = now.replace(hour=12, minute=30, second=0, microsecond=0)
-                    # If the current time is already past 12:30 PM, set the target time to the next day
-                    if now > target_time:
-                        target_time += timedelta(days=1)
-                    # Calculate the difference in seconds
-                    n = (target_time - now).total_seconds()
-                    telegram_bot_sendtext(limit_texts)
-                    time.sleep(n)
+           # Define the time zone (UTC+5:30)
+           tz = pytz.timezone('Asia/Kolkata')
+           # Get the current time in UTC+5:30
+           now = datetime.now(tz)
+           # Define the target time (12:30 PM)
+           target_time = now.replace(hour=12, minute=30, second=0, microsecond=0)
+           # If the current time is already past 12:30 PM, set the target time to the next day
+           if now > target_time:
+               target_time += timedelta(days=1)
+           # Calculate the difference in seconds
+           n = (target_time - now).total_seconds()
+           telegram_bot_sendques(limit_texts)
+           time.sleep(n)
 
         driver.get("https://expert.chegg.com/qna/authoring/answer")
         time.sleep(5)
@@ -120,14 +101,13 @@ while True:
             
             if i <= 1:
                 telegram_bot_sendtext(i)
-            elif i % 1000 == 0:
+            elif i % 100 == 0:
                 status = f"UP Running...  {i/10} {sub}"
                 telegram_bot_sendtext(status)
             i += 1
             
         else:
-            telegram_bot_sendques(f"{alert}")
-            telegram_bot_sendtext(f"{alert}")
+            telegram_bot_sendques(f"{sub}")
             time.sleep(720)
 
     except Exception as e:
